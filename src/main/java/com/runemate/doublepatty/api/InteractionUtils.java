@@ -16,9 +16,12 @@ public class InteractionUtils {
             if (tree != null && tree.isVisible()) {
                 while (!InventoryUtils.isInventoryFull() && player != null && player.isIdle()) {
                     tree.interact("Chop down");
+                    if(player != null && player.isIdle()) {
+                        Utility.delay(600, 5000);
+                    }
                 }
             } else {
-                Utility.delay(2000, 5000);
+                Utility.delay(600, 5000);
             }
         }
     }

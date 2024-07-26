@@ -7,14 +7,14 @@ public class BankUtils {
     public static void openBank() {
         if (!Bank.isOpen()) {
             Bank.open();
-            Execution.delayUntil(Bank::isOpen, Utility.randomNumber(1000, 4000));
+            Execution.delayUntil(Bank::isOpen, 1000, 4000);
         }
     }
 
     public static void closeBank() {
         if (Bank.isOpen()) {
             Bank.close();
-            Execution.delayUntil(() -> !Bank.isOpen(), Utility.randomNumber(2000, 3000));
+            Execution.delayUntil(() -> !Bank.isOpen(), 1000, 3000);
         }
     }
 
@@ -31,7 +31,7 @@ public class BankUtils {
     public static void withdrawItem(String itemName, int amount) {
         if (Bank.isOpen()) {
             Bank.withdraw(itemName, amount);
-            Execution.delay(Utility.randomNumber(2000, 4000));
+            Utility.delay(1000, 3000);
         }
     }
 }
