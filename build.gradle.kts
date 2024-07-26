@@ -18,5 +18,15 @@ runemate {
             version = "1.0.0"
             internalId = "example-test"
         }
+    manifests {
+        create("Crating AIO") {
+            mainClass = "com.runemate.doublepatty.craftingaio.main"
+            tagline = "Crafting Scripts all In one"
+            description = "Crafting All In One, does everything"
+            version = "0.1"
+            internalId = "jd-01"
+        }
+
+    }
     }
 }
