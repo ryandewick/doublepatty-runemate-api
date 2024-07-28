@@ -6,9 +6,12 @@ import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.hybrid.web.WebPath;
 
 public class MovementUtils {
+    static BotGUI gui = BotGUI.getInstance();
+
     public static void walkTo(Coordinate destination) {
         WebPath path = WebPath.buildTo(destination);
         if (path != null) {
+            gui.setAction("Walking to " + destination);
             path.step();
         }
     }
