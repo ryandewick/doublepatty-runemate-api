@@ -1,6 +1,5 @@
 package com.runemate.doublepatty.api;
 
-import com.runemate.doublepatty.Constants;
 import com.runemate.game.api.hybrid.local.Skill;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 
