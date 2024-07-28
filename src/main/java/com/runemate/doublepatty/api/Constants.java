@@ -1,4 +1,4 @@
-package com.runemate.doublepatty;
+package com.runemate.doublepatty.api;
 
 import com.runemate.game.api.hybrid.location.Coordinate;
 

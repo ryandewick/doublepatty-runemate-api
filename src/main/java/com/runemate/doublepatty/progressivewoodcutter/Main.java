@@ -1,5 +1,6 @@
-package com.runemate.doublepatty;
+package com.runemate.doublepatty.progressivewoodcutter;
 
+import com.runemate.doublepatty.api.Constants;
 import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.Players;
@@ -11,7 +12,7 @@ import static com.runemate.doublepatty.api.MovementUtils.*;
 import static com.runemate.doublepatty.api.SkillUtils.*;
 import static com.runemate.doublepatty.api.Utility.*;
 
-public class TestBot extends LoopingBot {
+public class Main extends LoopingBot {
     private Player player;
 
     @Override

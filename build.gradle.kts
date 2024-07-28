@@ -1,3 +1,4 @@
+import com.runemate.game.api.bot.data.Category
 plugins {
     id("java")
     id("com.runemate") version "1.3.0"
@@ -11,22 +12,21 @@ runemate {
     autoLogin = true
 
     manifests {
-        create("Test SCRIPT RYAN") {
-            mainClass = "com.runemate.doublepatty.TestBot"
-            tagline = "Just testing shizzle!"
-            description = "Just a simple test to see if this works"
+        create("Progressive Woodcutter") {
+            mainClass = "com.runemate.doublepatty.progressivewoodcutter.Main"
+            tagline = "Progressive Woodcutter"
+            description = "Progressive Woodcutter from DoublePatty"
             version = "1.0.0"
-            internalId = "example-test"
-        }
-    manifests {
+            internalId = "doublepatty-woodcutter"
+            categories(Category.WOODCUTTING)
+        };
         create("Crating AIO") {
             mainClass = "com.runemate.doublepatty.craftingaio.Main"
             tagline = "Crafting Scripts all In one"
             description = "Crafting All In One, does everything"
             version = "0.1"
             internalId = "jd-01"
+            categories(Category.CRAFTING)
         }
-
-    }
     }
 }
