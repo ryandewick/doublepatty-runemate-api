@@ -22,6 +22,12 @@ public class BankUtils {
         return Bank.isOpen() && Bank.contains(itemName);
     }
 
+    public static void depositAll() {
+        if (Bank.isOpen()) {
+            Bank.depositInventory();
+        }
+    }
+
     public static void depositAllExcept(String itemName) {
         if (Bank.isOpen()) {
             Bank.depositAllExcept(itemName);

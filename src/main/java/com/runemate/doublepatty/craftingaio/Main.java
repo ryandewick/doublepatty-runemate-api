@@ -9,7 +9,7 @@ import com.runemate.game.api.script.framework.listeners.events.SettingChangedEve
 import com.runemate.ui.setting.annotation.open.SettingsProvider;
 import lombok.Getter;
 
-public class main extends LoopingBot implements SettingsListener, EngineListener {
+public class Main extends LoopingBot implements SettingsListener, EngineListener {
     boolean started = false;
     State state;
 

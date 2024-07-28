@@ -20,7 +20,7 @@ runemate {
         }
     manifests {
         create("Crating AIO") {
-            mainClass = "com.runemate.doublepatty.craftingaio.main"
+            mainClass = "com.runemate.doublepatty.craftingaio.Main"
             tagline = "Crafting Scripts all In one"
             description = "Crafting All In One, does everything"
             version = "0.1"

@@ -30,15 +30,13 @@ public class TestBot extends LoopingBot {
             player = Players.getLocal();
         }
 
-        if(!player.isIdle()) {
+        if(player != null && !player.isIdle()) {
             return;
         }
-//
-//        if (player.isMoving()) {
-//            return;
-//        }
 
-        if (!Inventory.contains(Constants.AXE_NAME) || Inventory.isFull()) {
+        String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
+
+        if (bestAxe == null || !Inventory.contains(bestAxe) || Inventory.isFull()) {
             bankAndWithdrawAxe();
         } else {
             chopTree();
@@ -48,20 +46,32 @@ public class TestBot extends LoopingBot {
     private void bankAndWithdrawAxe() {
         walkTo(Constants.DRAYNOR_BANK);
         openBank();
-        depositAllExcept(Constants.AXE_NAME);
-        delay(600, 2000);
+        String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
+
+        if (bestAxe != null && !Inventory.contains(bestAxe)) {
+            depositAll();
+            delay(600, 1200);
+            if (bankContains(bestAxe)) {
+                withdrawItem(bestAxe, 1);
+                delay(600, 1200);
+            }
+        } else if (bestAxe != null) {
+            depositAllExcept(bestAxe);
+            delay(600, 2000);
+        }
     }
 
     private void chopTree() {
-        final int PROXIMITY_RANGE = 8;
+        final int PROXIMITY_RANGE = 12;
         int woodcuttingLevel = getWoodcuttingLevel();
 
-        if (woodcuttingLevel < 15) {
-            chopTreeInArea(Constants.TREE_AREA, Constants.TREE_NAME, PROXIMITY_RANGE);
-        } else if (woodcuttingLevel < 30) {
+        // Set the appropriate axe and tree area based on the woodcutting level
+        if (woodcuttingLevel >= 30) {
+            chopTreeInArea(Constants.WILLOW_TREE_AREA, Constants.WILLOW_TREE_NAME, PROXIMITY_RANGE);
+        } else if (woodcuttingLevel >= 15) {
             chopTreeInArea(Constants.OAK_TREE_AREA, Constants.OAK_TREE_NAME, PROXIMITY_RANGE);
         } else {
-            chopTreeInArea(Constants.WILLOW_TREE_AREA, Constants.WILLOW_TREE_NAME, PROXIMITY_RANGE);
+            chopTreeInArea(Constants.TREE_AREA, Constants.TREE_NAME, PROXIMITY_RANGE);
         }
     }
 }
