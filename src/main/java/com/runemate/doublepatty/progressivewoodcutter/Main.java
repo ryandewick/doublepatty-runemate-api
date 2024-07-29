@@ -7,9 +7,11 @@ import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.LoopingBot;
+import com.runemate.pathfinder.Pathfinder;
 
 import static com.runemate.doublepatty.api.BankUtils.*;
 import static com.runemate.doublepatty.api.InteractionUtils.chopTreeInArea;
+import static com.runemate.doublepatty.api.MovementUtils.init;
 import static com.runemate.doublepatty.api.MovementUtils.walkTo;
 import static com.runemate.doublepatty.api.SkillUtils.getBestAvailableAxe;
 import static com.runemate.doublepatty.api.SkillUtils.getWoodcuttingLevel;
@@ -21,16 +23,17 @@ public class Main extends LoopingBot {
     private static final int MIN_BREAK_TIME = 60000;
     private static final int MAX_BREAK_TIME = 300000;
     private BotGUI gui;
+    private Pathfinder pathfinder;
 
 
 
     @Override
     public void onStart(String... args) {
-        super.onStart(args);
         System.out.println("Bot started!");
         System.out.println("Playtime duration: " + MAX_PLAY_TIME / 60000 + " minutes.");
 
-        BotGUI.resetInstance();
+        init(this);
+
         gui = BotGUI.getInstance();
         gui.setVisible(true);
         gui.setScriptName("Progressive Woodcutter");
@@ -41,6 +44,7 @@ public class Main extends LoopingBot {
     @Override
     public void onStop() {
         System.out.println("Bot stopped!");
+        BotGUI.resetInstance();
     }
 
     @Override
@@ -48,6 +52,10 @@ public class Main extends LoopingBot {
         player = Players.getLocal();
 
         if (player == null || !player.isIdle()) {
+            return;
+        }
+
+        if(player.isMoving()) {
             return;
         }
 

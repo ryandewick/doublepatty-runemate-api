@@ -1,7 +1,16 @@
 import com.runemate.game.api.bot.data.Category
+
 plugins {
     id("java")
     id("com.runemate") version "1.3.0"
+}
+
+repositories {
+    maven(url = "https://gitlab.com/api/v4/projects/60393439/packages/maven")
+}
+
+dependencies {
+    compileOnly("com.runemate:runemate-pathfinder-api:1.0.4")
 }
 
 group = "com.runemate.doublepatty"
