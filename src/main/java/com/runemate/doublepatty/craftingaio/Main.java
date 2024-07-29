@@ -43,6 +43,7 @@ public class Main extends LoopingBot implements SettingsListener, EngineListener
             System.out.println("Dragonstone");
         } else if (config.gems() == Gems.ONYX) {
             System.out.println("Onyx");
+            System.out.println("test");
 
         }
     }
