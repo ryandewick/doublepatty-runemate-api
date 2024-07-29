@@ -10,6 +10,6 @@ public enum Types {
 
         BATTLESTAFFS,
         GEMS,
-        HIDE
+        CRAFT_HIDES
 
 }
