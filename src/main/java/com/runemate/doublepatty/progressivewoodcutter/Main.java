@@ -19,7 +19,8 @@ import static com.runemate.doublepatty.api.SkillUtils.getWoodcuttingLevel;
 public class Main extends LoopingBot {
     private Player player;
     private long lastBreakTime = System.currentTimeMillis();
-    private static int MAX_PLAY_TIME = Utility.random(300000, 3600000);
+//    private static int MAX_PLAY_TIME = Utility.random(300000, 3600000);
+    private static int MAX_PLAY_TIME = Utility.random(60000, 420000);
     private static final int MIN_BREAK_TIME = 60000;
     private static final int MAX_BREAK_TIME = 300000;
     private BotGUI gui;
@@ -60,9 +61,9 @@ public class Main extends LoopingBot {
             takeBreak();
             lastBreakTime = currentTime;
             return;
-        } else {
-            performMainTask();
         }
+
+        performMainTask();
     }
 
     private void takeBreak() {
@@ -86,7 +87,7 @@ public class Main extends LoopingBot {
     }
 
     private void bankAndWithdrawAxe() {
-        walkTo(Constants.DRAYNOR_BANK_AREA);
+        walkTo(Constants.DRAYNOR_BANK);
         openBank();
         String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
 

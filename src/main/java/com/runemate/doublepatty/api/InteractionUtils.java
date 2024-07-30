@@ -13,11 +13,9 @@ public class InteractionUtils {
     public static void chopTreeInArea(Area area, String treeName, int proximityRange) {
         Player player = Players.getLocal();
 
-        if (player == null) return;
-
         if (!MovementUtils.isAtLocationProximity(area, proximityRange)) {
             MovementUtils.walkTo(area);
-            Execution.delayUntil(() -> MovementUtils.isAtLocationProximity(area, proximityRange));
+            Execution.delayUntil(() -> MovementUtils.isAtLocationProximity(area, proximityRange), 2000, 4000);
         }
 
         gui.setAction("Looking for " + treeName);
