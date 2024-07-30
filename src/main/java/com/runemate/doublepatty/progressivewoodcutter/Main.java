@@ -18,9 +18,9 @@ public class Main extends LoopingBot {
     private Player player;
     private long lastBreakTime = System.currentTimeMillis();
 //    private static int MAX_PLAY_TIME = Utility.random(300000, 3600000);
-    private static int MAX_PLAY_TIME = Utility.random(60000, 420000);
+    private static int MAX_PLAY_TIME = Utility.random(60000, 800000);
     private static final int MIN_BREAK_TIME = 60000;
-    private static final int MAX_BREAK_TIME = 680000;
+    private static final int MAX_BREAK_TIME = 500000;
     private BotGUI gui;
     private Pathfinder pathfinder;
 
@@ -57,7 +57,6 @@ public class Main extends LoopingBot {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastBreakTime > MAX_PLAY_TIME) {
             takeBreak();
-            lastBreakTime = currentTime;
             return;
         }
 
@@ -69,6 +68,7 @@ public class Main extends LoopingBot {
         gui.setAction("Taking a break for " + breakDuration / 60000 + " minutes.");
         Utility.delay(breakDuration);
         gui.setAction("Break over. Resuming bot.");
+        lastBreakTime = System.currentTimeMillis();
         MAX_PLAY_TIME = Utility.random(60000, 420000);
         System.out.println("Will now play for: " + MAX_PLAY_TIME / 60000 + " minutes.");
     }
