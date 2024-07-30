@@ -18,10 +18,66 @@ public class Main extends LoopingBot implements SettingsListener {
     @Override
     public void onStart(String... args) {
         getEventDispatcher().addListener(this);
+        System.out.println("Bot started. Waiting for settings confirmation.");
     }
 
     @Override
     public void onLoop() {
+
+        // Main operational logic based on user selections
+        Types selectedType = settings.getType();
+        switch (selectedType) {
+            case BATTLESTAFFS:
+                performBattlestaffCrafting(settings.getBattlestaff());
+                break;
+            case GEMS:
+                performGemCrafting(settings.getGem());
+                break;
+            default:
+                System.out.println("No valid crafting type selected.");
+                break;
+        }
+    }
+
+    private void performBattlestaffCrafting(Battlestaffs battlestaff) {
+        System.out.println("Crafting " + battlestaff.getName() + "...");
+        // Add specific crafting logic for each battlestaff type
+        switch (battlestaff) {
+            case AIR_BATTLESTAFF:
+                // Crafting logic for Air Battlestaff
+                break;
+            case WATER_BATTLESTAFF:
+                // Crafting logic for Water Battlestaff
+                break;
+            case EARTH_BATTLESTAFF:
+                // Crafting logic for Earth Battlestaff
+                break;
+            case FIRE_BATTLESTAFF:
+                // Crafting logic for Fire Battlestaff
+                break;
+        }
+    }
+
+    private void performGemCrafting(Gems gem) {
+        System.out.println("Crafting with " + gem.getName() + "...");
+        // Add specific crafting logic for each gem type
+        switch (gem) {
+            case OPAL:
+                // Crafting logic for Opal
+                break;
+            case SAPPHIRE:
+                // Crafting logic for Sapphire
+                break;
+            case EMERALD:
+                // Crafting logic for Emerald
+                break;
+            case RUBY:
+                // Crafting logic for Ruby
+                break;
+            case DIAMOND:
+                // Crafting logic for Diamond
+                break;
+        }
     }
 
     @Override
