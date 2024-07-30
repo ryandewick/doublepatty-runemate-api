@@ -25,7 +25,6 @@ public class BankUtils {
     public static boolean bankContains(String itemName) {
         if (Bank.isOpen()) {
             gui.setAction("Checking bank for " + itemName);
-
             return Bank.contains(itemName);
         }
         return false;
