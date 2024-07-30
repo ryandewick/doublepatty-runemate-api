@@ -1,10 +1,10 @@
 package com.runemate.doublepatty.api;
 
-import com.runemate.doublepatty.progressivewoodcutter.Main;
 import com.runemate.game.api.hybrid.entities.Player;
-import com.runemate.game.api.hybrid.location.Coordinate;
+import com.runemate.game.api.hybrid.location.Area;
 import com.runemate.game.api.hybrid.location.navigation.Path;
 import com.runemate.game.api.hybrid.region.Players;
+import com.runemate.game.api.script.framework.AbstractBot;
 import com.runemate.pathfinder.Pathfinder;
 import com.runemate.pathfinder.path.MateWebPath;
 
@@ -13,11 +13,19 @@ public class MovementUtils {
 
     private static Pathfinder pathfinder;
 
-    public static void init(Main bot) {
-        pathfinder = Pathfinder.create(bot);
+    public static <Bot> void init(Bot bot) {
+        pathfinder = Pathfinder.create((AbstractBot) bot);
     }
 
-    public static void walkTo(Coordinate destination) {
+//    public static void walkTo(Area destination) {
+//        WebPath path = WebPath.buildTo(destination);
+//        if (path != null) {
+//            gui.setAction("Walking to " + destination);
+//            path.step();
+//        }
+//    }
+
+    public static void walkTo(Area destination) {
         Path path;
         if (pathfinder.getLastPath() != null && ((MateWebPath) pathfinder.getLastPath()).isValid()) {
             path = pathfinder.getLastPath();
@@ -31,12 +39,12 @@ public class MovementUtils {
         }
     }
 
-    public static boolean isAtLocation(Coordinate location) {
+    public static boolean isAtLocation(Area location) {
         Player player = Players.getLocal();
         return player != null && player.getPosition().equals(location);
     }
 
-    public static boolean isAtLocationProximity(Coordinate location, int range) {
+    public static boolean isAtLocationProximity(Area location, int range) {
         Player player = Players.getLocal();
         return player != null && player.getPosition().distanceTo(location) <= range;
     }

@@ -1,17 +1,18 @@
 package com.runemate.doublepatty.craftingaio.enums;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
 public enum Battlestaffs {
+    AIR_BATTLESTAFF("Air Battlestaff"),
+    WATER_BATTLESTAFF("Water Battlestaff"),
+    EARTH_BATTLESTAFF("Earth Battlestaff"),
+    FIRE_BATTLESTAFF("Fire Battlestaff");
 
-    AIR_BATTLESTAFF("Air battlestaff", "Battlestaff", "Air orb"),
-    WATER_BATTLESTAFF("Water battlestaff", "Battlestaff", "Water orb"),
-    EARTH_BATTLESTAFF("Earth battlestaff", "Battlestaff", "Earth orb"),
-    FIRE_BATTLESTAFF("Fire battlestaff", "Battlestaff", "Fire orb");
+    private final String name;
 
+    Battlestaffs(final String name) {
+        this.name = name;
+    }
 
-    private final String gameName, firstItem, secondItem;
+    public String getName() {
+        return name;
+    }
 }

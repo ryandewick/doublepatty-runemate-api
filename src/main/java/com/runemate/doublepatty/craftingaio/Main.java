@@ -1,63 +1,54 @@
 package com.runemate.doublepatty.craftingaio;
 
+import com.runemate.doublepatty.craftingaio.enums.Battlestaffs;
 import com.runemate.doublepatty.craftingaio.enums.Gems;
-import com.runemate.game.api.hybrid.entities.Player;
+import com.runemate.doublepatty.craftingaio.enums.Types;
 import com.runemate.game.api.script.framework.LoopingBot;
-import com.runemate.game.api.script.framework.listeners.EngineListener;
 import com.runemate.game.api.script.framework.listeners.SettingsListener;
 import com.runemate.game.api.script.framework.listeners.events.SettingChangedEvent;
 import com.runemate.ui.setting.annotation.open.SettingsProvider;
-import lombok.Getter;
 
-public class Main extends LoopingBot implements SettingsListener, EngineListener {
-    boolean started = false;
+public class Main extends LoopingBot implements SettingsListener {
 
-    private Player player;
+    @SettingsProvider(updatable = true)
+    private Config settings;
+
+    private boolean settingsConfirmed;
 
     @Override
     public void onStart(String... args) {
-        System.out.println("Bot started!");
+        getEventDispatcher().addListener(this);
     }
-
-    @Override
-    public void onStop() {
-        System.out.println("Bot stopped!");
-    }
-
-    @Getter
-    @SettingsProvider(updatable = true)
-    private Config config;
-
 
     @Override
     public void onLoop() {
-        if (config.gems() == Gems.RUBY) {
-            System.out.println("Ruby");
-        } else if (config.gems() == Gems.SAPPHIRE) {
-            System.out.println("Sapphire");
-        } else if (config.gems() == Gems.EMERALD) {
-            System.out.println("Emerald");
-        } else if (config.gems() == Gems.DIAMOND) {
-            System.out.println("Diamond");
-        } else if (config.gems() == Gems.DRAGONSTONE) {
-            System.out.println("Dragonstone");
-        } else if (config.gems() == Gems.ONYX) {
-            System.out.println("Onyx");
-            System.out.println("test");
-
-        }
     }
 
     @Override
     public void onSettingChanged(SettingChangedEvent settingChangedEvent) {
-
+        String settingKey = settingChangedEvent.getKey();
+        switch (settingKey) {
+            case "type":
+                Types selectedType = settings.getType();
+                System.out.println("Type changed: " + selectedType);
+                break;
+            case "battlestaff":
+                Battlestaffs selectedBattlestaff = settings.getBattlestaff();
+                System.out.println("Battlestaff changed: " + selectedBattlestaff.getName());
+                break;
+            case "gem":
+                Gems selectedGem = settings.getGem();
+                System.out.println("Gem changed: " + selectedGem.getName());
+                break;
+            default:
+                System.out.println("Setting changed: " + settingKey);
+                break;
+        }
     }
 
     @Override
     public void onSettingsConfirmed() {
-        if (!started) {
-            started = true;
-        }
-
+        settingsConfirmed = true;
+        System.out.println("Settings have been confirmed.");
     }
 }

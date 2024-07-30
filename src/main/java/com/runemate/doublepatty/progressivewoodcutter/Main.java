@@ -54,20 +54,15 @@ public class Main extends LoopingBot {
         if (player == null || !player.isIdle()) {
             return;
         }
-
-        if(player.isMoving()) {
-            return;
-        }
-
         // Handle breaks
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastBreakTime > MAX_PLAY_TIME) {
             takeBreak();
             lastBreakTime = currentTime;
             return;
+        } else {
+            performMainTask();
         }
-
-        performMainTask();
     }
 
     private void takeBreak() {
@@ -81,7 +76,6 @@ public class Main extends LoopingBot {
 
 
     private void performMainTask() {
-        System.out.println("Performing the main task.");
         String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
 
         if (bestAxe == null || !Inventory.contains(bestAxe) || Inventory.isFull()) {
@@ -92,7 +86,7 @@ public class Main extends LoopingBot {
     }
 
     private void bankAndWithdrawAxe() {
-        walkTo(Constants.DRAYNOR_BANK);
+        walkTo(Constants.DRAYNOR_BANK_AREA);
         openBank();
         String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
 
