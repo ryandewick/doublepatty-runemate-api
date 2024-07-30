@@ -10,11 +10,9 @@ import com.runemate.game.api.script.framework.LoopingBot;
 import com.runemate.pathfinder.Pathfinder;
 
 import static com.runemate.doublepatty.api.BankUtils.*;
-import static com.runemate.doublepatty.api.InteractionUtils.chopTreeInArea;
-import static com.runemate.doublepatty.api.MovementUtils.init;
-import static com.runemate.doublepatty.api.MovementUtils.walkTo;
-import static com.runemate.doublepatty.api.SkillUtils.getBestAvailableAxe;
-import static com.runemate.doublepatty.api.SkillUtils.getWoodcuttingLevel;
+import static com.runemate.doublepatty.api.InteractionUtils.*;
+import static com.runemate.doublepatty.api.MovementUtils.*;
+import static com.runemate.doublepatty.api.SkillUtils.*;
 
 public class Main extends LoopingBot {
     private Player player;
@@ -22,7 +20,7 @@ public class Main extends LoopingBot {
 //    private static int MAX_PLAY_TIME = Utility.random(300000, 3600000);
     private static int MAX_PLAY_TIME = Utility.random(60000, 420000);
     private static final int MIN_BREAK_TIME = 60000;
-    private static final int MAX_BREAK_TIME = 300000;
+    private static final int MAX_BREAK_TIME = 680000;
     private BotGUI gui;
     private Pathfinder pathfinder;
 
@@ -71,8 +69,8 @@ public class Main extends LoopingBot {
         gui.setAction("Taking a break for " + breakDuration / 60000 + " minutes.");
         Utility.delay(breakDuration);
         gui.setAction("Break over. Resuming bot.");
-        MAX_PLAY_TIME = Utility.random(300000, 3600000);
-        gui.setAction("Will now play for " + MAX_PLAY_TIME / 60000 + " minutes.");
+        MAX_PLAY_TIME = Utility.random(60000, 420000);
+        System.out.println("Will now play for: " + MAX_PLAY_TIME / 60000 + " minutes.");
     }
 
 
