@@ -33,7 +33,7 @@ runemate {
             mainClass = "com.runemate.doublepatty.craftingaio.Main"
             tagline = "Crafting Scripts all In one"
             description = "Crafting All In One, does everything"
-            version = "0.1"
+            version = "0.3"
             internalId = "jd-01"
             categories(Category.CRAFTING)
         }
