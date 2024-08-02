@@ -4,20 +4,17 @@ import com.runemate.doublepatty.craftingaio.enums.Battlestaffs;
 import com.runemate.doublepatty.craftingaio.enums.Gems;
 import com.runemate.doublepatty.craftingaio.enums.Types;
 import com.runemate.game.api.hybrid.entities.Player;
-import com.runemate.game.api.hybrid.local.hud.interfaces.Bank;
-import com.runemate.game.api.hybrid.local.hud.interfaces.InterfaceComponent;
-import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.Players;
-import com.runemate.game.api.osrs.local.hud.interfaces.MakeAllInterface;
-import com.runemate.game.api.script.Execution;
 import com.runemate.game.api.script.framework.LoopingBot;
 import com.runemate.game.api.script.framework.listeners.SettingsListener;
 import com.runemate.game.api.script.framework.listeners.events.SettingChangedEvent;
 import com.runemate.ui.DefaultUI;
 import com.runemate.ui.setting.annotation.open.SettingsProvider;
 
-import static com.runemate.doublepatty.api.SpriteItemsUtils.useItemOn;
+import static com.runemate.doublepatty.api.BankUtils.*;
+import static com.runemate.doublepatty.api.InteractionUtils.makeAll;
+import static com.runemate.doublepatty.api.InteractionUtils.useItemOn;
 
 public class Main extends LoopingBot implements SettingsListener {
 
@@ -37,6 +34,8 @@ public class Main extends LoopingBot implements SettingsListener {
     @Override
     public void onLoop() {
 
+        if (settings == null) { return; }
+
         // Main operational logic based on user selections
         Types selectedType = settings.getType();
         switch (selectedType) {
@@ -52,18 +51,16 @@ public class Main extends LoopingBot implements SettingsListener {
         }
     }
 
-    public void makeAll(String action) {
-        if (MakeAllInterface.isOpen()) {
-            if (MakeAllInterface.getSelectedQuantity() != 0) {
-                DefaultUI.setStatus("Setting quantity to ALL");
-                MakeAllInterface.setSelectedQuantity(0);
-                Execution.delay(600, 1200);
-            }
-            DefaultUI.setStatus("Making All");
-            InterfaceComponent makeAllButton = Interfaces.newQuery().containers(270).actions(action).results().first();
-            if (makeAllButton != null) {
-                makeAllButton.click();
-                Execution.delayUntil(() -> player.getAnimationId() == -1, 600, 1200);}
+    private void checkInventory(String item1, String item2) {
+        if (!Inventory.contains(item1) || !Inventory.contains(item2)) {
+            DefaultUI.setStatus("Banking current Items & Checking for required items");
+            openBank();
+            depositAll();
+            checkQuantity("Water orb", 14);
+            checkQuantity("Battlestaff", 14);
+            withdrawItem(item1, 14);
+            withdrawItem(item2, 14);
+            closeBank();
         }
     }
 
@@ -72,54 +69,35 @@ public class Main extends LoopingBot implements SettingsListener {
 
         switch (battlestaff) {
             case AIR_BATTLESTAFF:
-                // Crafting logic for Air Battlestaff
-                break;
-            case WATER_BATTLESTAFF:
-                if (!Bank.isOpen()) {
-                    DefaultUI.setStatus("Opening bank");
-                    Bank.open();
-                    if (Bank.contains("Water orb") && Bank.contains("Battlestaff")) {
-                        DefaultUI.setStatus("Withdrawing items from bank");
-                        Bank.withdraw("Water orb", 14);
-                        Bank.withdraw("Battlestaff", 14);
-                        Execution.delayUntil(() -> Bank.contains("Water orb") && Bank.contains("Battlestaff"), 600, 1200);
-                        Bank.close();
-                    } else {
-                        if (!Bank.contains("Water orb") || !Bank.contains("Battlestaff")) {
-                            DefaultUI.setStatus("Missing items in bank");
-                            return;
-
-                        }
-                    }
-                    if (Inventory.contains("Water orb") && Inventory.contains("Battlestaff")) {
-                        DefaultUI.setStatus("Using items on each other");
-                        useItemOn("Water orb", "Battlestaff");
-                        Execution.delayUntil(() -> !Inventory.contains("Water orb") && !Inventory.contains("Battlestaff"), 600, 1200);
-                        if (MakeAllInterface.isOpen()) {
-                            DefaultUI.setStatus("Crafting Water battlestaff");
-                            makeAll("Make");
-                        }
-                        Execution.delay(20000);
-                        Bank.depositInventory();
-                        Execution.delay(2000);
-                        return;
-                    }
-
-                    if (Inventory.contains("Water battlestaff")) {
-                        DefaultUI.setStatus("Depositing Water battlestaffs");
-                        Bank.open();
-                        Bank.depositInventory();
-                    }
-                    return;
+                checkInventory("Air orb", "Battlestaff");
+                if (Inventory.contains("Air orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Air orb", "Battlestaff");
+                    makeAll("Make");
                 }
-
-
                 break;
+
+            case WATER_BATTLESTAFF:
+                checkInventory("Water orb", "Battlestaff");
+                if (Inventory.contains("Water orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Water orb", "Battlestaff");
+                    makeAll("Make");
+                }
+                break;
+
             case EARTH_BATTLESTAFF:
-                // Crafting logic for Earth Battlestaff
+                checkInventory("Earth orb", "Battlestaff");
+                if (Inventory.contains("Earth orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Earth orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
+
             case FIRE_BATTLESTAFF:
-                // Crafting logic for Fire Battlestaff
+                checkInventory("Fire orb", "Battlestaff");
+                if (Inventory.contains("Fire orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Fire orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
         }
     }

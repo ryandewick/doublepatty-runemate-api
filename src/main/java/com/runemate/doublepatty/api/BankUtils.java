@@ -2,6 +2,7 @@ package com.runemate.doublepatty.api;
 
 import com.runemate.game.api.hybrid.local.hud.interfaces.Bank;
 import com.runemate.game.api.script.Execution;
+import com.runemate.ui.DefaultUI;
 
 public class BankUtils {
     static BotGUI gui = BotGUI.getInstance();
@@ -50,6 +51,17 @@ public class BankUtils {
             gui.setAction("Withdrawing " + amount + " " + itemName);
             Bank.withdraw(itemName, amount);
             Utility.delay(1000, 3000);
+        }
+    }
+
+    public static void checkQuantity(String itemName, int amount) {
+        if (Bank.isOpen()) {
+            DefaultUI.setStatus("Checking quantity of " + itemName);
+            if (Bank.contains(itemName)) {
+                if (Bank.getQuantity(itemName) < amount) {
+                    DefaultUI.setStatus("Bank doesn't contain enough " + itemName + ", stopping script...");
+                }
+            }
         }
     }
 }

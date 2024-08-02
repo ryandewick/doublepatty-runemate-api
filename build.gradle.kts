@@ -36,6 +36,14 @@ runemate {
             version = "0.3"
             internalId = "jd-01"
             categories(Category.CRAFTING)
+        };
+        create("Account Builder") {
+            mainClass = "com.runemate.doublepatty.accountbuild.Main"
+            tagline = "Account Builder"
+            description = "All in one account builder, for Baby pures, Zerkers, BH pures, etc. "
+            version = "1.0.0"
+            internalId = "jd-02"
+            categories(Category.COMBAT)
         }
     }
 }
