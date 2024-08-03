@@ -1,6 +1,5 @@
 package com.runemate.doublepatty.progressivewoodcutter;
 
-import com.runemate.doublepatty.api.BotGUI;
 import com.runemate.doublepatty.api.Constants;
 import com.runemate.doublepatty.api.Utility;
 import com.runemate.game.api.hybrid.entities.Player;
@@ -8,11 +7,15 @@ import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.LoopingBot;
 import com.runemate.pathfinder.Pathfinder;
+import com.runemate.ui.DefaultUI;
 
 import static com.runemate.doublepatty.api.BankUtils.*;
-import static com.runemate.doublepatty.api.InteractionUtils.*;
-import static com.runemate.doublepatty.api.MovementUtils.*;
-import static com.runemate.doublepatty.api.SkillUtils.*;
+import static com.runemate.doublepatty.api.InteractionUtils.chopTreeInArea;
+import static com.runemate.doublepatty.api.MovementUtils.init;
+import static com.runemate.doublepatty.api.MovementUtils.walkTo;
+import static com.runemate.doublepatty.api.SkillUtils.getBestAvailableAxe;
+import static com.runemate.doublepatty.api.SkillUtils.getWoodcuttingLevel;
+import static com.runemate.doublepatty.api.Utility.delay;
 
 public class Main extends LoopingBot {
     private Player player;
@@ -21,29 +24,19 @@ public class Main extends LoopingBot {
     private static int MAX_PLAY_TIME = Utility.random(60000, 800000);
     private static final int MIN_BREAK_TIME = 60000;
     private static final int MAX_BREAK_TIME = 500000;
-    private BotGUI gui;
     private Pathfinder pathfinder;
 
 
 
     @Override
     public void onStart(String... args) {
-        System.out.println("Bot started!");
-        System.out.println("Playtime duration: " + MAX_PLAY_TIME / 60000 + " minutes.");
-
+        DefaultUI.setStatus("Playtime duration: " + MAX_PLAY_TIME / 60000 + " minutes.");
         init(this);
-
-        gui = BotGUI.getInstance();
-        gui.setVisible(true);
-        gui.setScriptName("Progressive Woodcutter");
-        gui.setAction("Bot started!");
-
     }
 
     @Override
     public void onStop() {
-        System.out.println("Bot stopped!");
-        BotGUI.resetInstance();
+        DefaultUI.setStatus("Stopping bot.");
     }
 
     @Override
@@ -65,14 +58,15 @@ public class Main extends LoopingBot {
 
     private void takeBreak() {
         int breakDuration = Utility.random(MIN_BREAK_TIME, MAX_BREAK_TIME);
-        gui.setAction("Taking a break for " + breakDuration / 60000 + " minutes.");
-        Utility.delay(breakDuration);
-        gui.setAction("Break over. Resuming bot.");
+//        gui.setAction("Taking a break for " + breakDuration / 60000 + " minutes.");
+        DefaultUI.setStatus("Taking a break for " + breakDuration / 60000 + " minutes.");
+        delay(breakDuration);
+//        gui.setAction("Break over. Resuming bot.");
+        DefaultUI.setStatus("Break over. Resuming bot.");
         lastBreakTime = System.currentTimeMillis();
         MAX_PLAY_TIME = Utility.random(60000, 420000);
         System.out.println("Will now play for: " + MAX_PLAY_TIME / 60000 + " minutes.");
     }
-
 
     private void performMainTask() {
         String bestAxe = getBestAvailableAxe(getWoodcuttingLevel());
@@ -91,14 +85,14 @@ public class Main extends LoopingBot {
 
         if (bestAxe != null && !Inventory.contains(bestAxe)) {
             depositAll();
-            Utility.delay(Utility.random(600, 1200));
+            delay(Utility.random(600, 1200));
             if (bankContains(bestAxe)) {
                 withdrawItem(bestAxe, 1);
-                Utility.delay(Utility.random(600, 1200));
+                delay(Utility.random(600, 1200));
             }
         } else if (bestAxe != null) {
             depositAllExcept(bestAxe);
-            Utility.delay(Utility.random(600, 2000));
+            delay(Utility.random(600, 2000));
         }
     }
 
