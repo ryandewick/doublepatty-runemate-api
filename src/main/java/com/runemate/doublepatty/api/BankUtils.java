@@ -54,14 +54,17 @@ public class BankUtils {
         }
     }
 
-    public static void checkQuantity(String itemName, int amount) {
+    public static boolean checkQuantity(String itemName, int amount) {
         if (Bank.isOpen()) {
             DefaultUI.setStatus("Checking quantity of " + itemName);
-            if (Bank.contains(itemName)) {
-                if (Bank.getQuantity(itemName) < amount) {
-                    DefaultUI.setStatus("Bank doesn't contain enough " + itemName + ", stopping script...");
-                }
+            int itemQuantity = Bank.getQuantity(itemName);
+            if (itemQuantity >= amount) {
+                return true;
+            } else {
+                DefaultUI.setStatus("Bank doesn't contain enough " + itemName + ", stopping script...");
+                return false;
             }
         }
+        return false;
     }
-}
+        }
