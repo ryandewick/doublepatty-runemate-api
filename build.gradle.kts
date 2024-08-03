@@ -44,6 +44,12 @@ runemate {
             version = "1.0.0"
             internalId = "jd-02"
             categories(Category.COMBAT)
+        };
+        create("Debugger") {
+            mainClass = "com.runemate.doublepatty.dev_debug_tool.Main"
+            tagline = "Debugger"
+            description = "Debugging tool, animation & Interface ids, etc."
+            categories(Category.OTHER)
         }
     }
 }
