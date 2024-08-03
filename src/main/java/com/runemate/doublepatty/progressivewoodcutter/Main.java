@@ -43,7 +43,7 @@ public class Main extends LoopingBot {
     public void onLoop() {
         player = Players.getLocal();
 
-        if (player == null || !player.isIdle()) {
+        if (player == null) {
             return;
         }
         // Handle breaks
