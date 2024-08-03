@@ -3,10 +3,18 @@ package com.runemate.doublepatty.craftingaio;
 import com.runemate.doublepatty.craftingaio.enums.Battlestaffs;
 import com.runemate.doublepatty.craftingaio.enums.Gems;
 import com.runemate.doublepatty.craftingaio.enums.Types;
+import com.runemate.game.api.hybrid.entities.Player;
+import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
+import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.LoopingBot;
 import com.runemate.game.api.script.framework.listeners.SettingsListener;
 import com.runemate.game.api.script.framework.listeners.events.SettingChangedEvent;
+import com.runemate.ui.DefaultUI;
 import com.runemate.ui.setting.annotation.open.SettingsProvider;
+
+import static com.runemate.doublepatty.api.BankUtils.*;
+import static com.runemate.doublepatty.api.InteractionUtils.makeAll;
+import static com.runemate.doublepatty.api.InteractionUtils.useItemOn;
 
 public class Main extends LoopingBot implements SettingsListener {
 
@@ -15,14 +23,18 @@ public class Main extends LoopingBot implements SettingsListener {
 
     private boolean settingsConfirmed;
 
+    Player player = Players.getLocal();
+
     @Override
     public void onStart(String... args) {
         getEventDispatcher().addListener(this);
-        System.out.println("Bot started. Waiting for settings confirmation.");
+        System.out.println("Bot started. Waiting for settings con   firmation.");
     }
 
     @Override
     public void onLoop() {
+
+        if (settings == null) { return; }
 
         // Main operational logic based on user selections
         Types selectedType = settings.getType();
@@ -39,21 +51,53 @@ public class Main extends LoopingBot implements SettingsListener {
         }
     }
 
+    private void checkInventory(String item1, String item2) {
+        if (!Inventory.contains(item1) || !Inventory.contains(item2)) {
+            DefaultUI.setStatus("Banking current Items & Checking for required items");
+            openBank();
+            depositAll();
+            checkQuantity("Water orb", 14);
+            checkQuantity("Battlestaff", 14);
+            withdrawItem(item1, 14);
+            withdrawItem(item2, 14);
+            closeBank();
+        }
+    }
+
     private void performBattlestaffCrafting(Battlestaffs battlestaff) {
         System.out.println("Crafting " + battlestaff.getName() + "...");
-        // Add specific crafting logic for each battlestaff type
+
         switch (battlestaff) {
             case AIR_BATTLESTAFF:
-                // Crafting logic for Air Battlestaff
+                checkInventory("Air orb", "Battlestaff");
+                if (Inventory.contains("Air orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Air orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
+
             case WATER_BATTLESTAFF:
-                // Crafting logic for Water Battlestaff
+                checkInventory("Water orb", "Battlestaff");
+                if (Inventory.contains("Water orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Water orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
+
             case EARTH_BATTLESTAFF:
-                // Crafting logic for Earth Battlestaff
+                checkInventory("Earth orb", "Battlestaff");
+                if (Inventory.contains("Earth orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Earth orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
+
             case FIRE_BATTLESTAFF:
-                // Crafting logic for Fire Battlestaff
+                checkInventory("Fire orb", "Battlestaff");
+                if (Inventory.contains("Fire orb") && Inventory.contains("Battlestaff")) {
+                    useItemOn("Fire orb", "Battlestaff");
+                    makeAll("Make");
+                }
                 break;
         }
     }

@@ -26,6 +26,7 @@ public class SkillUtils {
         return null;
     }
 
+
     // Check if the axe can be used by the player based on their level
     private static boolean isAxeUsable(String axe, int woodcuttingLevel) {
         return switch (axe) {
