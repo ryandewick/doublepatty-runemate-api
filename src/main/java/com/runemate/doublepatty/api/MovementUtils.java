@@ -25,7 +25,6 @@ public class MovementUtils {
         }
 
         if (path != null) {
-            System.out.println("Walking to " + destination);
             DefaultUI.setStatus("Walking to " + destination);
             path.step();
         }

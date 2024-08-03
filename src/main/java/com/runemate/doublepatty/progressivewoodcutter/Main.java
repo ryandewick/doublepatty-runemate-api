@@ -8,7 +8,6 @@ import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.LoopingBot;
 import com.runemate.pathfinder.Pathfinder;
 import com.runemate.ui.DefaultUI;
-import lombok.extern.log4j.Log4j2;
 
 import static com.runemate.doublepatty.api.BankUtils.*;
 import static com.runemate.doublepatty.api.InteractionUtils.chopTreeInArea;
@@ -18,7 +17,6 @@ import static com.runemate.doublepatty.api.SkillUtils.getBestAvailableAxe;
 import static com.runemate.doublepatty.api.SkillUtils.getWoodcuttingLevel;
 import static com.runemate.doublepatty.api.Utility.delay;
 
-@Log4j2
 public class Main extends LoopingBot {
     private Player player;
     private long lastBreakTime = System.currentTimeMillis();
