@@ -24,7 +24,6 @@ public class InteractionUtils {
         if (!MovementUtils.isAtLocationProximity(area, proximityRange)) {
             MovementUtils.walkTo(area);
             Execution.delayUntil(() -> MovementUtils.isAtLocationProximity(area, proximityRange), 2000, 4000);
-            return;
         }
 
         DefaultUI.setStatus("Looking for " + treeName);

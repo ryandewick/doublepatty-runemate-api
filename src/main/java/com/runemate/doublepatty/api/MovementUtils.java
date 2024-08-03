@@ -21,10 +21,11 @@ public class MovementUtils {
         if (pathfinder.getLastPath() != null && ((MateWebPath) pathfinder.getLastPath()).isValid()) {
             path = pathfinder.getLastPath();
         } else {
-            path = pathfinder.pathBuilder().preferAccuracy().destination(destination).findPath();
+            path = pathfinder.pathBuilder().preferSpeed().destination(destination).findPath();
         }
 
         if (path != null) {
+            System.out.println("Walking to " + destination);
             DefaultUI.setStatus("Walking to " + destination);
             path.step();
         }
