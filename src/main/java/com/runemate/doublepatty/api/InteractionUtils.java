@@ -13,28 +13,32 @@ import com.runemate.game.api.osrs.local.hud.interfaces.MakeAllInterface;
 import com.runemate.game.api.script.Execution;
 import com.runemate.ui.DefaultUI;
 
+import static com.runemate.doublepatty.api.Utility.delay;
+
 public class InteractionUtils {
-    static BotGUI gui = BotGUI.getInstance();
     static Player player = Players.getLocal();
+
     public static void chopTreeInArea(Area area, String treeName, int proximityRange) {
+        Player player = Players.getLocal();
 
         if (!MovementUtils.isAtLocationProximity(area, proximityRange)) {
             MovementUtils.walkTo(area);
             Execution.delayUntil(() -> MovementUtils.isAtLocationProximity(area, proximityRange), 2000, 4000);
+            return;
         }
 
-        gui.setAction("Looking for " + treeName);
+        DefaultUI.setStatus("Looking for " + treeName);
 
         GameObject tree = GameObjects.newQuery().names(treeName).results().nearest();
         if (tree != null && tree.isVisible()) {
             while (!InventoryUtils.isInventoryFull() && player.isIdle()) {
-                gui.setAction("Chopping " + treeName + "...");
+                DefaultUI.setStatus("Chopping " + treeName);
                 tree.interact("Chop down");
-                Utility.delay(600, 5000);
+                delay(600, 5000);
             }
         } else {
-            gui.setAction("No trees found, idling...");
-            Utility.delay(600, 2000); // Shorter delay if no tree is visible
+            DefaultUI.setStatus("No trees found, idling...");
+            delay(600, 2000);
         }
     }
     public static void useItemOn(String itemName1, String itemName2) {

@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.runemate:runemate-pathfinder-api:1.0.4")
+    compileOnly("com.runemate:runemate-pathfinder-api:1.0.7")
 }
 
 group = "com.runemate.doublepatty"
