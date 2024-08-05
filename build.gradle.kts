@@ -29,6 +29,14 @@ runemate {
             internalId = "doublepatty-woodcutter"
             categories(Category.WOODCUTTING)
         };
+        create("Tutorial Island") {
+            mainClass = "com.runemate.doublepatty.tutisland.Main"
+            tagline = "Tutorial Island"
+            description = "Completes tutorial island from DoublePatty"
+            version = "1.0.0"
+            internalId = "doublepatty-tutorialisland"
+            categories(Category.OTHER)
+        };
         create("Crating AIO") {
             mainClass = "com.runemate.doublepatty.craftingaio.Main"
             tagline = "Crafting Scripts all In one"

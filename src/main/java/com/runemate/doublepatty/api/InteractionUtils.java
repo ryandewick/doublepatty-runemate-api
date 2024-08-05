@@ -13,6 +13,8 @@ import com.runemate.game.api.osrs.local.hud.interfaces.MakeAllInterface;
 import com.runemate.game.api.script.Execution;
 import com.runemate.ui.DefaultUI;
 
+import static com.runemate.doublepatty.api.MovementUtils.isAtLocationProximity;
+import static com.runemate.doublepatty.api.MovementUtils.walkTo;
 import static com.runemate.doublepatty.api.Utility.delay;
 
 public class InteractionUtils {
@@ -23,7 +25,6 @@ public class InteractionUtils {
 
         if (!MovementUtils.isAtLocationProximity(area, proximityRange)) {
             MovementUtils.walkTo(area);
-            Execution.delayUntil(() -> MovementUtils.isAtLocationProximity(area, proximityRange), 2000, 4000);
         }
 
         DefaultUI.setStatus("Looking for " + treeName);
