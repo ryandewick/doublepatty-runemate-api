@@ -1,4 +1,4 @@
-package com.runemate.doublepatty.efficientironman;
+package com.runemate.doublepatty.efficient_ironman;
 
 import com.runemate.doublepatty.api.InventoryUtils;
 import com.runemate.game.api.hybrid.entities.Npc;

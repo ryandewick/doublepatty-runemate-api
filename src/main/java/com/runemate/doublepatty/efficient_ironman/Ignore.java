@@ -1,4 +1,4 @@
-package com.runemate.doublepatty.efficientironman;
+package com.runemate.doublepatty.efficient_ironman;
 
 import com.runemate.game.api.hybrid.entities.Npc;
 import com.runemate.game.api.hybrid.entities.Player;
@@ -76,7 +76,6 @@ public class Ignore extends Task {
         for (int i = 0; i < clicks; i++) {
             for (InterfaceComponent component : interfaceComponents) {
                 if (component.getIndex() == childIndex) {
-//                    component.click();
                     DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
                     System.out.println("Clicked continue dialogue:" + i);
                     delay(600, 1200);

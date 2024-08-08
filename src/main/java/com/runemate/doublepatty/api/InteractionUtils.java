@@ -97,4 +97,46 @@ public class InteractionUtils {
             }
         }
     }
+
+    public static void continueDialogue(int containerId, int childIndex) {
+        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
+                .containers(containerId)
+                .results().asList();
+
+        for (InterfaceComponent component : interfaceComponents) {
+            if (component.getIndex() == childIndex) {
+                DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
+                System.out.println("Clicked continue dialogue");
+                delay(600, 1200);
+            }
+        }
+    }
+
+    public static void selectAnswer(int containerId, String text) {
+        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
+                .containers(containerId)
+                .results().asList();
+
+        for (InterfaceComponent component : interfaceComponents) {
+            if (text.equals(component.getText())) {
+                DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
+                delay(600, 1200);
+                break;
+            }
+        }
+    }
+
+    public static void selectAnswer(int containerId, int childIndex) {
+        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
+                .containers(containerId)
+                .results().asList();
+
+        for (InterfaceComponent component : interfaceComponents) {
+            if (component.getIndex() == childIndex) {
+                DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
+                delay(600, 1200);
+                break;
+            }
+        }
+    }
 }

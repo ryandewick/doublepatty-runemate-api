@@ -1,4 +1,4 @@
-package com.runemate.doublepatty.progressivewoodcutter;
+package com.runemate.doublepatty.progressive_woodcutter;
 
 import com.runemate.doublepatty.api.Constants;
 import com.runemate.doublepatty.api.Utility;

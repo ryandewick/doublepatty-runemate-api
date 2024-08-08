@@ -23,7 +23,7 @@ runemate {
 
     manifests {
         create("Progressive Woodcutter") {
-            mainClass = "com.runemate.doublepatty.progressivewoodcutter.Main"
+            mainClass = "com.runemate.doublepatty.progressive_woodcutter.Main"
             tagline = "Progressive Woodcutter"
             description = "Progressive Woodcutter from DoublePatty"
             version = "1.0.0"
@@ -31,7 +31,7 @@ runemate {
             categories(Category.WOODCUTTING)
         };
         create("Efficient Ironman") {
-            mainClass = "com.runemate.doublepatty.efficientironman.Main"
+            mainClass = "com.runemate.doublepatty.efficient_ironman.Main"
             tagline = "Automate Efficient Ironman Guide"
             description = "Completes 1.1 on ironman.guide"
             version = "1.0.0"

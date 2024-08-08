@@ -1,4 +1,4 @@
-package com.runemate.doublepatty.efficientironman;
+package com.runemate.doublepatty.efficient_ironman;
 
 import com.runemate.game.api.script.framework.task.TaskBot;
 
@@ -10,6 +10,6 @@ public class Main extends TaskBot {
         super.onStart(strings);
         System.out.println("Bot started.");
         init(this);
-        add(new SellStartingGear());
+        add(new SellStartingGear(), new StartXMarksTheSpot());
     }
 }
