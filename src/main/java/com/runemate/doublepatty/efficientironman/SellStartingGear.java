@@ -33,14 +33,14 @@ public class SellStartingGear extends Task {
     @Override
     public void execute() {
         DefaultUI.setStatus("Selling starting gear...");
-        Coordinate shopCoordinate = new Coordinate(3213, 3244, 0);
+        Coordinate GENERAL_STORE = new Coordinate(3213, 3244, 0);
 
-        if (!isAtLocationProximity(shopCoordinate, 4)) {
-            walkTo(shopCoordinate);
-            Execution.delayUntil(() -> isAtLocation(shopCoordinate), 600, 2000);
+        if (!isAtLocationProximity(GENERAL_STORE, 4)) {
+            walkTo(GENERAL_STORE);
+            Execution.delayUntil(() -> isAtLocation(GENERAL_STORE), 600, 2000);
         }
 
-        if (isAtLocationProximity(shopCoordinate, 4) && InventoryUtils.hasItemsInInventory(itemsToSell)) {
+        if (isAtLocationProximity(GENERAL_STORE, 4) && InventoryUtils.hasItemsInInventory(itemsToSell)) {
             sellItems();
         }
 
