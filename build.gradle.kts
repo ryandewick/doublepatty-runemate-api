@@ -1,4 +1,5 @@
 import com.runemate.game.api.bot.data.Category
+import com.runemate.game.api.bot.data.FeatureType
 
 plugins {
     id("java")
@@ -29,13 +30,17 @@ runemate {
             internalId = "doublepatty-woodcutter"
             categories(Category.WOODCUTTING)
         };
-        create("Tutorial Island") {
-            mainClass = "com.runemate.doublepatty.tutisland.Main"
-            tagline = "Tutorial Island"
-            description = "Completes tutorial island from DoublePatty"
+        create("Efficient Ironman") {
+            mainClass = "com.runemate.doublepatty.efficientironman.Main"
+            tagline = "Automate Efficient Ironman Guide"
+            description = "Completes 1.1 on ironman.guide"
             version = "1.0.0"
-            internalId = "doublepatty-tutorialisland"
+            internalId = "doublepatty-efficient-ironman"
             categories(Category.OTHER)
+
+            features {
+                required(FeatureType.DIRECT_INPUT)
+            }
         };
         create("Crating AIO") {
             mainClass = "com.runemate.doublepatty.craftingaio.Main"

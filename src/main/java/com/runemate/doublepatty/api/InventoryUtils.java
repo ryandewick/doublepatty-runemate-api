@@ -7,6 +7,15 @@ public class InventoryUtils {
         return Inventory.contains(itemName);
     }
 
+    public static boolean hasItemsInInventory(String[] itemNames) {
+        for (String itemName : itemNames) {
+            if (!Inventory.contains(itemName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isInventoryFull() {
         return Inventory.isFull();
     }

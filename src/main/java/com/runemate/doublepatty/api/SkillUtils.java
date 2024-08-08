@@ -1,7 +1,10 @@
 package com.runemate.doublepatty.api;
 
 import com.runemate.game.api.hybrid.local.Skill;
+import com.runemate.game.api.hybrid.local.Skills;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
+
+import java.util.Arrays;
 
 public class SkillUtils {
     private static final String[] axePriority = new String[] {
@@ -15,6 +18,11 @@ public class SkillUtils {
 
     public static int getWoodcuttingLevel() {
         return Skill.WOODCUTTING.getCurrentLevel();
+    }
+
+    public static int getTotalLevel() {
+        int[] currentLevels = Skills.getCurrentLevels();
+        return Arrays.stream(currentLevels).sum();
     }
 
     public static String getBestAvailableAxe(int woodcuttingLevel) {

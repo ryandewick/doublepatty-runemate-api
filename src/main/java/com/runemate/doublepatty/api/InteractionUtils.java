@@ -2,25 +2,27 @@ package com.runemate.doublepatty.api;
 
 import com.runemate.game.api.hybrid.entities.GameObject;
 import com.runemate.game.api.hybrid.entities.Player;
+import com.runemate.game.api.hybrid.input.direct.DirectInput;
+import com.runemate.game.api.hybrid.input.direct.MenuAction;
 import com.runemate.game.api.hybrid.local.hud.interfaces.InterfaceComponent;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Interfaces;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.local.hud.interfaces.SpriteItem;
-import com.runemate.game.api.hybrid.location.Area;
+import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.osrs.local.hud.interfaces.MakeAllInterface;
 import com.runemate.game.api.script.Execution;
 import com.runemate.ui.DefaultUI;
 
-import static com.runemate.doublepatty.api.MovementUtils.isAtLocationProximity;
-import static com.runemate.doublepatty.api.MovementUtils.walkTo;
+import java.util.List;
+
 import static com.runemate.doublepatty.api.Utility.delay;
 
 public class InteractionUtils {
     static Player player = Players.getLocal();
 
-    public static void chopTreeInArea(Area area, String treeName, int proximityRange) {
+    public static void chopTreeInArea(Coordinate area, String treeName, int proximityRange) {
         Player player = Players.getLocal();
 
         if (!MovementUtils.isAtLocationProximity(area, proximityRange)) {
@@ -65,6 +67,34 @@ public class InteractionUtils {
             if (makeAllButton != null) {
                 makeAllButton.click();
                 Execution.delayUntil(() -> player.getAnimationId() == -1, 600, 1200);}
+        }
+    }
+
+    public static void sellItemToShop(String itemName, String quantity) {
+        SpriteItem item = Inventory.newQuery().names(itemName).results().first();
+
+        if (item != null) {
+            DefaultUI.setStatus("Selling " + " " + itemName);
+            item.interact("Sell" + " " + quantity);
+            Execution.delay(600, 1200);
+        }
+    }
+
+    public static void buyItemFromShop(String itemName, String quantity) {
+        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
+                .containers(300)
+                .results().asList();
+
+        if (interfaceComponents == null || interfaceComponents.isEmpty()) {
+            return;
+        }
+
+        for (InterfaceComponent component : interfaceComponents) {
+            if (component != null && component.getName() != null && component.getName().contains(itemName)) {
+                DirectInput.send(MenuAction.forInterfaceComponent(component, "Buy " + quantity));
+                Execution.delay(600, 1200);
+                return;
+            }
         }
     }
 }
