@@ -1,6 +1,7 @@
 package com.runemate.doublepatty.api;
 
 import com.runemate.game.api.hybrid.entities.GameObject;
+import com.runemate.game.api.hybrid.entities.GroundItem;
 import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.input.direct.DirectInput;
 import com.runemate.game.api.hybrid.input.direct.MenuAction;
@@ -10,6 +11,7 @@ import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
 import com.runemate.game.api.hybrid.local.hud.interfaces.SpriteItem;
 import com.runemate.game.api.hybrid.location.Coordinate;
 import com.runemate.game.api.hybrid.region.GameObjects;
+import com.runemate.game.api.hybrid.region.GroundItems;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.osrs.local.hud.interfaces.MakeAllInterface;
 import com.runemate.game.api.script.Execution;
@@ -17,6 +19,7 @@ import com.runemate.ui.DefaultUI;
 
 import java.util.List;
 
+import static com.runemate.doublepatty.api.InventoryUtils.hasItemInInventory;
 import static com.runemate.doublepatty.api.Utility.delay;
 
 public class InteractionUtils {
@@ -70,11 +73,37 @@ public class InteractionUtils {
         }
     }
 
+    public static void dropItem(String itemName) {
+        if(Inventory.getItems(itemName).first() != null) {
+            Inventory.getItems(itemName).first().interact("Drop");
+            Execution.delay(600, 1200);
+        }
+    }
+
+    public static void dropItems(String[] itemNames) {
+        for (String itemName : itemNames) {
+            if(Inventory.getItems(itemName).first() != null) {
+                Inventory.getItems(itemName).first().interact("Drop");
+                Execution.delay(600, 1200);
+            }
+        }
+    }
+
+    public static void pickUpItem(String itemName) {
+        GroundItem item = GroundItems.newQuery().names(itemName).results().first();
+
+        if (item != null && item.isVisible()) {
+            item.interact("Take");
+            Execution.delayUntil(() -> hasItemInInventory(itemName));
+        }
+    }
+
+
     public static void sellItemToShop(String itemName, String quantity) {
         SpriteItem item = Inventory.newQuery().names(itemName).results().first();
 
         if (item != null) {
-            DefaultUI.setStatus("Selling " + " " + itemName);
+            DefaultUI.setStatus("Selling " + quantity + " " + itemName);
             item.interact("Sell" + " " + quantity);
             Execution.delay(600, 1200);
         }
@@ -91,6 +120,7 @@ public class InteractionUtils {
 
         for (InterfaceComponent component : interfaceComponents) {
             if (component != null && component.getName() != null && component.getName().contains(itemName)) {
+                DefaultUI.setStatus("Buying " + quantity + " " + itemName);
                 DirectInput.send(MenuAction.forInterfaceComponent(component, "Buy " + quantity));
                 Execution.delay(600, 1200);
                 return;
@@ -105,8 +135,8 @@ public class InteractionUtils {
 
         for (InterfaceComponent component : interfaceComponents) {
             if (component.getIndex() == childIndex) {
+                DefaultUI.setStatus("Continuing dialogue...");
                 DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
-                System.out.println("Clicked continue dialogue");
                 delay(600, 1200);
             }
         }
@@ -119,6 +149,7 @@ public class InteractionUtils {
 
         for (InterfaceComponent component : interfaceComponents) {
             if (text.equals(component.getText())) {
+                DefaultUI.setStatus("Selecting " + text);
                 DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
                 delay(600, 1200);
                 break;
@@ -133,6 +164,7 @@ public class InteractionUtils {
 
         for (InterfaceComponent component : interfaceComponents) {
             if (component.getIndex() == childIndex) {
+                DefaultUI.setStatus("Selecting " + component.getText());
                 DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
                 delay(600, 1200);
                 break;
