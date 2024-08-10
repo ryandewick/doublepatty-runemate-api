@@ -19,7 +19,8 @@ public class SellStartingGear extends Task {
 
     private static final String SHOP_ASSISTANT = "Shop assistant";
     private static final int SHOP_INVENTORY = 300;
-    String[] itemsToSell = {"Bronze dagger", "Bronze sword", "Bronze axe", "Wooden shield", "Shortbow"};
+    private final String[] itemsToSell = {"Bronze dagger", "Bronze sword", "Bronze axe", "Wooden shield", "Shortbow"};
+    private final Coordinate GENERAL_STORE = new Coordinate(3213, 3244, 0);
 
     @Override
     public boolean validate() {
@@ -27,59 +28,54 @@ public class SellStartingGear extends Task {
         boolean hasSpade = InventoryUtils.hasItemInInventory("Spade");
         int totalLevel = getTotalLevel();
 
-        return hasItemsToSell || !hasSpade && totalLevel == 34;
+        return hasItemsToSell || (!hasSpade && totalLevel == 34);
     }
 
     @Override
     public void execute() {
         DefaultUI.setStatus("Selling starting gear...");
-        Coordinate GENERAL_STORE = new Coordinate(3213, 3244, 0);
 
-        if (!isAtLocationProximity(GENERAL_STORE, 4)) {
+        if (!isAtLocationProximity(GENERAL_STORE, 7)) {
             walkTo(GENERAL_STORE);
-            Execution.delayUntil(() -> isAtLocation(GENERAL_STORE), 600, 2000);
+            Execution.delayUntil(() -> isAtLocationProximity(GENERAL_STORE, 7), 600, 2000);
         }
 
-        if (isAtLocationProximity(GENERAL_STORE, 4) && InventoryUtils.hasItemsInInventory(itemsToSell)) {
-            sellItems();
-        }
-
-        if (!InventoryUtils.hasItemsInInventory(itemsToSell) && !InventoryUtils.hasItemInInventory("Spade")) {
-            buySpade();
+        if (isAtLocationProximity(GENERAL_STORE, 7)) {
+            if (InventoryUtils.hasItemsInInventory(itemsToSell)) {
+                sellItems();
+            } else if (!InventoryUtils.hasItemInInventory("Spade")) {
+                buySpade();
+            }
         }
     }
 
     private void sellItems() {
         Npc shopAssistant = Npcs.newQuery().names(SHOP_ASSISTANT).results().first();
-        InterfaceComponent shopInventory = Interfaces.newQuery()
-                .containers(SHOP_INVENTORY)
-                .results().first();
-
         if (shopAssistant != null && shopAssistant.isVisible()) {
             shopAssistant.interact("Trade");
-            Execution.delayUntil(() -> shopInventory != null && shopInventory.isVisible(), 600, 2000);
+            Execution.delayUntil(() -> Interfaces.newQuery().containers(SHOP_INVENTORY).results().first() != null, 600, 2000);
         }
 
+        InterfaceComponent shopInventory = Interfaces.newQuery().containers(SHOP_INVENTORY).results().first();
         if (shopInventory != null && shopInventory.isVisible()) {
             for (String item : itemsToSell) {
                 sellItemToShop(item, "1");
+                Execution.delay(200, 600);
             }
         }
     }
 
     private void buySpade() {
         Npc shopAssistant = Npcs.newQuery().names(SHOP_ASSISTANT).results().first();
-        InterfaceComponent shopInventory = Interfaces.newQuery()
-                .containers(SHOP_INVENTORY)
-                .results().first();
-
-        if (shopAssistant != null && shopAssistant.isVisible() && (shopInventory == null || !shopInventory.isVisible())) {
+        if (shopAssistant != null && shopAssistant.isVisible()) {
             shopAssistant.interact("Trade");
-            Execution.delayUntil(() -> shopInventory != null && shopInventory.isVisible(), 600, 2000);
+            Execution.delayUntil(() -> Interfaces.newQuery().containers(SHOP_INVENTORY).results().first() != null, 600, 2000);
         }
 
+        InterfaceComponent shopInventory = Interfaces.newQuery().containers(SHOP_INVENTORY).results().first();
         if (shopInventory != null && shopInventory.isVisible()) {
             buyItemFromShop("Spade", "1");
+            Execution.delay(200, 600);
         }
     }
 }

@@ -93,10 +93,14 @@ public class InteractionUtils {
         GroundItem item = GroundItems.newQuery().names(itemName).results().first();
 
         if (item != null && item.isVisible()) {
-            item.interact("Take");
-            Execution.delayUntil(() -> hasItemInInventory(itemName));
+            if (item.interact("Take")) {
+                Execution.delayUntil(() -> hasItemInInventory(itemName) && GroundItems.newQuery().names(itemName).results().isEmpty(),
+                        600, 2000
+                );
+            }
         }
     }
+
 
 
     public static void sellItemToShop(String itemName, String quantity) {
