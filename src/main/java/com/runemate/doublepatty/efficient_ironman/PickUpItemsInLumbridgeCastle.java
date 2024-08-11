@@ -26,7 +26,7 @@ public class PickUpItemsInLumbridgeCastle extends Task {
 
     @Override
     public boolean validate() {
-        return (hasItemsInInventory(inventory) && getQuestStatus("X Marks the Spot") == Quest.Status.IN_PROGRESS) || !hasItemsInInventory(itemsToPickUp);
+        return (hasItemsInInventory(inventory) && getQuestStatus("X Marks the Spot") == Quest.Status.IN_PROGRESS) && !hasItemsInInventory(itemsToPickUp);
     }
 
     @Override

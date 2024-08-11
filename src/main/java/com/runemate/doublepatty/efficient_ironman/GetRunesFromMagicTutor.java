@@ -70,16 +70,17 @@ public class GetRunesFromMagicTutor extends Task {
     }
 
     private void pickUpRunes() {
-        for (String rune : runes) {
-            pickUpItem(rune);
-            Execution.delayUntil(() -> hasItemInInventory(rune), 600, 1200);
-        }
+        pickUpItem("Air rune");
+        Execution.delayUntil(() -> Inventory.getQuantity("Air rune") >= 55, 600, 1200);
 
-        if (Inventory.getQuantity("Air rune") < 30 || Inventory.getQuantity("Mind rune") < 30) {
-            pickUpItem("Air rune");
-            Execution.delayUntil(() -> hasItemInInventory("Air rune"), 600, 1200);
-            pickUpItem("Mind rune");
-            Execution.delayUntil(() -> hasItemInInventory("Mind rune"), 600, 1200);
+        pickUpItem("Mind rune");
+        Execution.delayUntil(() -> Inventory.getQuantity("Mind rune") >= 45, 600, 1200);
+
+        for (String rune : runes) {
+            if (!rune.equals("Air rune") && !rune.equals("Mind rune")) {
+                pickUpItem(rune);
+                Execution.delayUntil(() -> hasItemInInventory(rune), 600, 1200);
+            }
         }
     }
 }
