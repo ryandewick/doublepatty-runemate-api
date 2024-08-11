@@ -47,18 +47,32 @@ public class StartXMarksTheSpot extends Task {
         handleDialogues();
     }
 
+//    private void handleDialogues() {
+//        continueDialogue(231, 5);
+//        selectAnswer(219, "I'm looking for a quest.");
+//        continueDialogue(217, 5);
+//        continueDialogue(231, 5);
+//        continueDialogue(217, 5);
+//        continueDialogue(231, 5);
+//        continueDialogue(217, 5);
+//        continueDialogue(231, 5);
+//        continueDialogue(231, 5);
+//        selectAnswer(219, 1);
+//        continueDialogue(217, 5);
+//        continueDialogue(231, 5);
+//    }
     private void handleDialogues() {
-        continueDialogue(231, 5);
-        selectAnswer(219, "I'm looking for a quest.");
-        continueDialogue(217, 5);
-        continueDialogue(231, 5);
-        continueDialogue(217, 5);
-        continueDialogue(231, 5);
-        continueDialogue(217, 5);
-        continueDialogue(231, 5);
-        continueDialogue(231, 5);
+        continueDialogue();
+        selectAnswer("I'm looking for a quest.");
+        continueDialogue();
+        continueDialogue();
+        continueDialogue();
+        continueDialogue();
+        continueDialogue();
+        continueDialogue();
+        continueDialogue();
         selectAnswer(219, 1);
-        continueDialogue(217, 5);
-        continueDialogue(231, 5);
+        continueDialogue();
+        continueDialogue();
     }
 }

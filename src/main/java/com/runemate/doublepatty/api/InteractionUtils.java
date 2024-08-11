@@ -132,34 +132,48 @@ public class InteractionUtils {
         }
     }
 
-    public static void continueDialogue(int containerId, int childIndex) {
-        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
-                .containers(containerId)
-                .results().asList();
+    public static void continueDialogue() {
+        int[] containerIds = {231, 217, 229, 193};
 
-        for (InterfaceComponent component : interfaceComponents) {
-            if (component.getIndex() == childIndex) {
-                DefaultUI.setStatus("Continuing dialogue...");
-                DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
-                delay(600, 1200);
+        for (int containerId : containerIds) {
+            List<InterfaceComponent> components = Interfaces.newQuery()
+                    .containers(containerId)
+                    .results().asList();
+
+            for (InterfaceComponent component : components) {
+                if (component != null && component.isVisible() && component.getIndex() == 5) {
+                    DefaultUI.setStatus("Continuing dialogue...");
+                    DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
+                    delay(600, 1200);
+                    return;
+                }
             }
         }
     }
 
-    public static void selectAnswer(int containerId, String text) {
-        List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
-                .containers(containerId)
-                .results().asList();
 
-        for (InterfaceComponent component : interfaceComponents) {
-            if (text.equals(component.getText())) {
-                DefaultUI.setStatus("Selecting " + text);
-                DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
-                delay(600, 1200);
-                break;
+    public static void selectAnswer(String answer) {
+        // Define potential container IDs where the answer might be found
+        int[] possibleContainers = {219, 231, 217, 193};
+
+        for (int containerId : possibleContainers) {
+            List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
+                    .containers(containerId)
+                    .results().asList();
+
+            for (InterfaceComponent component : interfaceComponents) {
+                if (answer.equals(component.getText())) {
+                    DefaultUI.setStatus("Selecting " + answer);
+                    DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
+                    delay(600, 1200);
+                    return;
+                }
             }
         }
+
+        DefaultUI.setStatus("Answer with text '" + answer + "' not found.");
     }
+
 
     public static void selectAnswer(int containerId, int childIndex) {
         List<InterfaceComponent> interfaceComponents = Interfaces.newQuery()
@@ -171,7 +185,6 @@ public class InteractionUtils {
                 DefaultUI.setStatus("Selecting " + component.getText());
                 DirectInput.send(MenuAction.forInterfaceComponent(component, "Continue"));
                 delay(600, 1200);
-                break;
             }
         }
     }
